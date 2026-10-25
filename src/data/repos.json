@@ -67,7 +67,19 @@
       "updatedAt": "2026-04-11T10:19:28Z",
       "siteUrl": null,
       "isPrivate": false
+    },
+    {
+      "name": "baiyanwu.github.io",
+      "nameWithOwner": "baiyanwu/baiyanwu.github.io",
+      "url": "https://github.com/baiyanwu/baiyanwu.github.io",
+      "description": "个人用户站（GitHub Pages）· 导航页入口",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "stars": 0,
+      "updatedAt": "2026-10-25T15:39:54Z",
+      "siteUrl": "https://baiyanwu.github.io/",
+      "isPrivate": false
     }
   ],
-  "generatedAt": "2026-10-25T14:29:14.203Z"
+  "generatedAt": "2026-10-25T15:40:06.368Z"
 }
