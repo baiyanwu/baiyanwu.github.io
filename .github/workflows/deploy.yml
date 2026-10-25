@@ -1,0 +1,67 @@
+name: 构建并部署站点
+
+# 一次跑完：拉最新 pinned 快照 → 构建 → 部署到 GitHub Pages。
+# push 到 main、每 15 分钟定时、以及手动触发都会跑。
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 每 15 分钟刷新一次数据（多 pin 一个仓库，站点最多一个周期后自己多一个格子）
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write # 需要把刷新后的快照提交回仓库
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 刷新仓库快照
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_OWNER: ${{ github.repository_owner }}
+        run: node scripts/fetch-repos.mjs
+
+      - name: 数据有变化就提交
+        run: |
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "数据没变化，跳过提交"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/repos.json src/data/repos.json
+          git commit -m "chore(data): 刷新仓库快照"
+          git push
+
+      - name: 构建
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - uses: actions/deploy-pages@v4
+        id: deployment
+
+      - name: 输出地址
+        run: echo "部署完成：${{ steps.deployment.outputs.page_url }}"

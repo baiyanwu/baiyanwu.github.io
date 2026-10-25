@@ -1,0 +1,73 @@
+{
+  "profile": {
+    "login": "baiyanwu",
+    "name": "Bai Yanwu",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/73529761?u=1453e06976645d282bf880e0d65fe39f5f9fd5ff&v=4",
+    "bio": "fuck life",
+    "followers": 10,
+    "htmlUrl": "https://github.com/baiyanwu"
+  },
+  "repos": [
+    {
+      "name": "Nrfr",
+      "nameWithOwner": "baiyanwu/Nrfr",
+      "url": "https://github.com/baiyanwu/Nrfr",
+      "description": "Android 16 适配版：免 Root 的 SIM 卡国家码修改工具，支持 Shizuku 与双 APK helper 安装。",
+      "language": "Kotlin",
+      "languageColor": "#A97BFF",
+      "stars": 94,
+      "updatedAt": "2026-10-24T12:09:11Z",
+      "siteUrl": null,
+      "isPrivate": false
+    },
+    {
+      "name": "CoinMonitor",
+      "nameWithOwner": "baiyanwu/CoinMonitor",
+      "url": "https://github.com/baiyanwu/CoinMonitor",
+      "description": "📈CoinMonitor📉 Android 加密货币监控工具，集成悬浮行情、自选列表、热门代币榜单及 EVM / Solana 多链自托管钱包，一站追踪 Binance、OKX 与链上市场动态。 Android crypto monitor with floating price tickers, watchlists, trending tokens, and a self-custody EVM & Solana wallet. Track Binance, OKX, and on-chain markets in one app. ",
+      "language": "Kotlin",
+      "languageColor": "#A97BFF",
+      "stars": 54,
+      "updatedAt": "2026-10-25T14:16:08Z",
+      "siteUrl": "https://baiyanwu.github.io/CoinMonitor/",
+      "isPrivate": false
+    },
+    {
+      "name": "Whirl",
+      "nameWithOwner": "baiyanwu/Whirl",
+      "url": "https://github.com/baiyanwu/Whirl",
+      "description": "Whirl 是一款适用于 Apple 芯片 Mac 的原生 macOS 26 应用启动器和同一应用窗口切换器。 A native macOS launcher and same-app window switcher for Apple silicon.  ",
+      "language": "Swift",
+      "languageColor": "#F05138",
+      "stars": 3,
+      "updatedAt": "2026-10-25T14:16:44Z",
+      "siteUrl": null,
+      "isPrivate": false
+    },
+    {
+      "name": "liuyao-skill",
+      "nameWithOwner": "baiyanwu/liuyao-skill",
+      "url": "https://github.com/baiyanwu/liuyao-skill",
+      "description": "六爻算命 skill",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "stars": 8,
+      "updatedAt": "2026-10-21T10:01:21Z",
+      "siteUrl": null,
+      "isPrivate": false
+    },
+    {
+      "name": "sbti-skill",
+      "nameWithOwner": "baiyanwu/sbti-skill",
+      "url": "https://github.com/baiyanwu/sbti-skill",
+      "description": null,
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "stars": 2,
+      "updatedAt": "2026-04-11T10:19:28Z",
+      "siteUrl": null,
+      "isPrivate": false
+    }
+  ],
+  "generatedAt": "2026-10-25T14:27:56.510Z"
+}
