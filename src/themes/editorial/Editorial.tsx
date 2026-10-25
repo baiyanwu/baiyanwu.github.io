@@ -43,27 +43,8 @@ function MoonIcon() {
   )
 }
 
-function RefreshIcon() {
-  return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M20.5 12a8.5 8.5 0 1 1-2.5-6" />
-      <path d="M20.5 3.6v6h-6" />
-    </svg>
-  )
-}
-
 export default function Editorial() {
-  const { site: data, refresh, refreshing, justRefreshed } = useSiteData()
+  const { site: data } = useSiteData()
   const { profile, repos } = data
   const visible = repos.filter((repo) => !repo.isPrivate)
   const name = profile.name ?? profile.login
@@ -122,19 +103,6 @@ export default function Editorial() {
           <span className="ed-bar__label">{name.toUpperCase()}</span>
 
           <div className="ed-bar__actions">
-            <button
-              type="button"
-              className={`ed-icon-btn ed-refresh${refreshing ? ' is-busy' : ''}${
-                justRefreshed ? ' is-done' : ''
-              }`}
-              onClick={() => void refresh()}
-              disabled={refreshing}
-              aria-label="刷新数据"
-              title="刷新数据"
-            >
-              <RefreshIcon />
-            </button>
-
             <button
               type="button"
               className="ed-icon-btn ed-mode"

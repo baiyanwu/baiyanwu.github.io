@@ -36,9 +36,9 @@ npm run build        # 产物在 dist/
 
 快照的时间戳只在数据真的变化时才更新，所以不会产生空提交。想刷新兜底快照，去 [Actions](https://github.com/baiyanwu/baiyanwu.github.io/actions/workflows/deploy.yml) 点「Run workflow」，或者在本地 `npm run fetch:data`。
 
-## 刷新按钮背后的 Cloudflare Worker
+## 实时数据背后的 Cloudflare Worker
 
-右上角的刷新按钮优先调用 Worker，由它带着只读令牌去读 GitHub 的 pinned 列表，所以**增删 pin 后点一下就能立刻看到**；Worker 不可用时自动退回 `/data/repos.json` 静态快照，再不行用打包进 JS 的那份。
+页面打开时会自动调用 Worker，由它带着只读令牌去读 GitHub 的 pinned 列表，所以**增删 pin 后刷新页面就能看到**；Worker 不可用时自动退回 `/data/repos.json` 静态快照，再不行用打包进 JS 的那份。
 
 | 项 | 值 |
 |---|---|
@@ -60,7 +60,7 @@ npx wrangler secret put GITHUB_TOKEN   # 轮换令牌时
 ## 页面结构
 
 - 极简编辑风：暖白纸感 / 夜间暖黑两套配色，右上角太阳·月亮图标切换（记忆在 localStorage，首次跟随系统 `prefers-color-scheme`）
-- 右上角还有一个刷新图标：调用 Worker 实时读取 pinned 列表，读取时图标转圈
+- 进入页面时自动通过 Worker 读取最新 pinned 列表（没有轮询，也没有手动刷新按钮）
 - Hero：头像、`@login`、大字名、一句话介绍、语言与更新时间；头像加载失败会退回仓库内的 `public/avatar.jpg`，再失败显示首字母
 - 方格网格：每个格子是一个仓库（名称 / 简介 / 语言 / star / 更新时间），最后一格通往 GitHub；格子数不能整除列数时，最后一格自动跨列补满整行
 - 「文字」区块：给以后的文章预留位置

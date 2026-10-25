@@ -161,19 +161,6 @@ html[data-mode='dark'] {
   transform: scale(0.92) rotate(-12deg);
 }
 
-/* 刷新：读取期间转圈，读完短暂变朱红 */
-.ed-refresh svg {
-  transition: transform 300ms var(--ed-ease);
-}
-
-.ed-refresh.is-busy svg {
-  animation: ed-spin 900ms linear infinite;
-}
-
-.ed-refresh.is-done {
-  color: var(--ed-accent);
-}
-
 /* ── Hero ─────────────────────────────────────────────────── */
 
 .ed-hero {
@@ -521,12 +508,6 @@ html[data-mode='dark'] {
   }
 }
 
-@keyframes ed-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* ── 响应式 ───────────────────────────────────────────────── */
 
 @media (max-width: 1200px) {
@@ -630,12 +611,7 @@ html[data-mode='dark'] {
   .ed-cell__no,
   .ed-bar__arrow,
   .ed-mode,
-  .ed-refresh,
   .ed-root {
     transition: none;
-  }
-
-  .ed-refresh svg {
-    animation: none !important;
   }
 }
