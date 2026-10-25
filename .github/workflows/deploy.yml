@@ -1,14 +1,11 @@
 name: 构建并部署站点
 
 # 一次跑完：拉最新 pinned 快照 → 构建 → 部署到 GitHub Pages。
-# push 到 main、每天定时一次、以及手动触发都会跑。
+# 只在 push 到 main 或手动触发时跑，没有定时任务。
+# 页面上的实时数据由 Cloudflare Worker 提供，跟这个部署无关。
 on:
   push:
     branches: [main]
-  schedule:
-    # 每天北京时间 08:00（UTC 00:00）刷新一次。
-    # 想立刻更新：到 Actions 页面点「Run workflow」即可。
-    - cron: '0 0 * * *'
   workflow_dispatch:
 
 permissions:

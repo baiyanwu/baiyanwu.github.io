@@ -19,22 +19,22 @@ npm run build        # 产物在 dist/
 
 ## 数据是怎么来的
 
+实时数据由 **Cloudflare Worker** 提供（见下一节）；仓库里的快照只是兜底。
+
 `scripts/fetch-repos.mjs` 用 `gh` 读该账号 pinned 的仓库，以及每个仓库有没有 Pages 项目站，然后写两份：
 
 | 文件 | 用途 |
 |---|---|
 | `src/data/repos.json` | 打包进 JS，首屏立刻可见，也是网络失败时的兜底 |
-| `public/data/repos.json` | 运行时由页面 fetch 读取，定时任务覆盖它即可更新站点 |
+| `public/data/repos.json` | 运行时由页面 fetch 读取（Worker 不可用时的第二选择） |
 
-`.github/workflows/deploy.yml` 在 **每次 push 到 main**、**每天 08:00（北京时间）**、以及手动触发时执行：
+`.github/workflows/deploy.yml` **只在 push 到 main 或手动触发**时执行，没有定时任务：
 
 ```
 拉最新快照 → 数据有变化才提交 → 构建 → 部署到 Pages
 ```
 
-快照的时间戳只在数据真的变化时才更新，所以定时任务不会制造空提交。
-
-页面加载时会 `fetch('/data/repos.json')`；右上角的刷新按钮可以立即重新读一次最新快照（不用刷新整个页面）。注意：静态页面**无法**自己去 GitHub 读取 pinned 列表（需要 token），要立刻让 GitHub 重新抓一次，请到 [Actions](https://github.com/baiyanwu/baiyanwu.github.io/actions/workflows/deploy.yml) 点「Run workflow」。
+快照的时间戳只在数据真的变化时才更新，所以不会产生空提交。想刷新兜底快照，去 [Actions](https://github.com/baiyanwu/baiyanwu.github.io/actions/workflows/deploy.yml) 点「Run workflow」，或者在本地 `npm run fetch:data`。
 
 ## 刷新按钮背后的 Cloudflare Worker
 
