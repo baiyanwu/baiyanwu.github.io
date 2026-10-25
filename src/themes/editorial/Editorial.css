@@ -129,14 +129,13 @@ html[data-mode='dark'] {
   transform: translate(2px, -2px);
 }
 
-/* 白天 / 夜间切换：只有图标，没有文字 */
-.ed-mode {
+/* 顶栏图标按钮（刷新 / 白天夜间切换）：只有图标，没有文字 */
+.ed-icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 30px;
   height: 30px;
-  margin: -7px -6px -7px 0;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -149,13 +148,30 @@ html[data-mode='dark'] {
     transform 320ms var(--ed-ease);
 }
 
-.ed-mode:hover {
+.ed-icon-btn:hover {
   background-color: var(--ed-hover);
   color: var(--ed-ink);
 }
 
+.ed-icon-btn:disabled {
+  cursor: default;
+}
+
 .ed-mode:active {
   transform: scale(0.92) rotate(-12deg);
+}
+
+/* 刷新：读取期间转圈，读完短暂变朱红 */
+.ed-refresh svg {
+  transition: transform 300ms var(--ed-ease);
+}
+
+.ed-refresh.is-busy svg {
+  animation: ed-spin 900ms linear infinite;
+}
+
+.ed-refresh.is-done {
+  color: var(--ed-accent);
 }
 
 /* ── Hero ─────────────────────────────────────────────────── */
@@ -180,6 +196,21 @@ html[data-mode='dark'] {
   height: 34px;
   border-radius: 50%;
   filter: grayscale(0.12);
+}
+
+/* 头像两次都加载失败时的首字母兜底 */
+.ed-hero__avatar--fallback {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--ed-rule);
+  background: var(--ed-hover);
+  font-family: var(--ed-serif);
+  font-size: 16px;
+  line-height: 1;
+  color: var(--ed-ink);
+  filter: none;
 }
 
 .ed-hero__handle {
@@ -490,6 +521,12 @@ html[data-mode='dark'] {
   }
 }
 
+@keyframes ed-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ── 响应式 ───────────────────────────────────────────────── */
 
 @media (max-width: 1200px) {
@@ -593,7 +630,12 @@ html[data-mode='dark'] {
   .ed-cell__no,
   .ed-bar__arrow,
   .ed-mode,
+  .ed-refresh,
   .ed-root {
     transition: none;
+  }
+
+  .ed-refresh svg {
+    animation: none !important;
   }
 }

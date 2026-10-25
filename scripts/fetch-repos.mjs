@@ -7,7 +7,7 @@
  *   npm run fetch:data
  */
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -125,16 +125,34 @@ const json = `${JSON.stringify(data, null, 2)}\n`
 /**
  * 写两份：
  *  - src/data/repos.json  打包进 JS，首屏立刻可见，离线/接口失败时兜底
- *  - public/data/repos.json 运行时由页面 fetch 读取，Action 定时覆盖它即可实现「不重新构建也更新」
+ *  - public/data/repos.json 运行时由页面 fetch 读取，定时任务覆盖它即可实现「不重新构建也更新」
  */
 const outputs = [
   join(ROOT, 'src', 'data', 'repos.json'),
   join(ROOT, 'public', 'data', 'repos.json'),
 ]
 
+/**
+ * 内容签名：不含 generatedAt，用来判断「数据本身有没有变化」。
+ * 没变化就沿用旧时间戳，这样定时任务不会因为时间变了就制造一次提交。
+ */
+const signature = (value) => JSON.stringify({ profile: value.profile, repos: value.repos })
+
+let previous = null
+try {
+  previous = JSON.parse(readFileSync(outputs[0], 'utf8'))
+} catch {
+  // 首次运行或文件损坏，忽略
+}
+
+if (previous?.generatedAt && signature(previous) === signature(data)) {
+  data.generatedAt = previous.generatedAt
+  console.log('· 数据没有变化，沿用上一版时间戳')
+}
+
 for (const file of outputs) {
   mkdirSync(dirname(file), { recursive: true })
-  writeFileSync(file, json, 'utf8')
+  writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`, 'utf8')
   console.log(`✓ 写入 ${relative(ROOT, file)}`)
 }
 

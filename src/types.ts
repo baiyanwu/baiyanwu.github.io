@@ -43,8 +43,3 @@ export interface SiteData {
    */
   liveFetchedAt?: string
 }
-
-/** 每个主题组件都接收同样的 props。 */
-export interface ThemeProps {
-  data: SiteData
-}

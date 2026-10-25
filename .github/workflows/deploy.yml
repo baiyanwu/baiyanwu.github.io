@@ -1,13 +1,14 @@
 name: 构建并部署站点
 
 # 一次跑完：拉最新 pinned 快照 → 构建 → 部署到 GitHub Pages。
-# push 到 main、每 15 分钟定时、以及手动触发都会跑。
+# push 到 main、每天定时一次、以及手动触发都会跑。
 on:
   push:
     branches: [main]
   schedule:
-    # 每 15 分钟刷新一次数据（多 pin 一个仓库，站点最多一个周期后自己多一个格子）
-    - cron: '*/15 * * * *'
+    # 每天北京时间 08:00（UTC 00:00）刷新一次。
+    # 想立刻更新：到 Actions 页面点「Run workflow」即可。
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 permissions:

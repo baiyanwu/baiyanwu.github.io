@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
-import type { ThemeProps } from '../../types'
 import { compactNumber, formatDate, formatStamp, fromNow, truncate } from '../../lib/format'
 import { langColor } from '../../lib/langColor'
 import { useColorMode } from '../../lib/useColorMode'
+import { useSiteData } from '../../lib/useSiteData'
 import './Editorial.css'
 
 const pad2 = (value: number) => String(value).padStart(2, '0')
@@ -43,11 +43,42 @@ function MoonIcon() {
   )
 }
 
-export default function Editorial({ data }: ThemeProps) {
+function RefreshIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M20.5 12a8.5 8.5 0 1 1-2.5-6" />
+      <path d="M20.5 3.6v6h-6" />
+    </svg>
+  )
+}
+
+export default function Editorial() {
+  const { site: data, refresh, refreshing, justRefreshed } = useSiteData()
   const { profile, repos } = data
   const visible = repos.filter((repo) => !repo.isPrivate)
   const name = profile.name ?? profile.login
   const { mode, toggle } = useColorMode()
+
+  // 头像：优先用 GitHub 的地址（会跟着头像更新），加载失败退回自托管的那张，
+  // 再失败就显示首字母——避免网络不通时页面上出现破图。
+  const localAvatar = `${import.meta.env.BASE_URL ?? '/'}avatar.jpg`
+  const [avatarSrc, setAvatarSrc] = useState<string>(profile.avatarUrl)
+  const [avatarBroken, setAvatarBroken] = useState(false)
+
+  useEffect(() => {
+    setAvatarSrc(profile.avatarUrl)
+    setAvatarBroken(false)
+  }, [profile.avatarUrl])
 
   const languages = Array.from(
     new Set(
@@ -93,7 +124,20 @@ export default function Editorial({ data }: ThemeProps) {
           <div className="ed-bar__actions">
             <button
               type="button"
-              className="ed-mode"
+              className={`ed-icon-btn ed-refresh${refreshing ? ' is-busy' : ''}${
+                justRefreshed ? ' is-done' : ''
+              }`}
+              onClick={() => void refresh()}
+              disabled={refreshing}
+              aria-label="刷新数据"
+              title="刷新数据"
+            >
+              <RefreshIcon />
+            </button>
+
+            <button
+              type="button"
+              className="ed-icon-btn ed-mode"
               onClick={toggle}
               aria-label={mode === 'dark' ? '切换到白天模式' : '切换到夜间模式'}
               title={mode === 'dark' ? '白天' : '夜间'}
@@ -117,14 +161,24 @@ export default function Editorial({ data }: ThemeProps) {
 
         <section className="ed-hero">
           <div className="ed-hero__eyebrow">
-            <img
-              className="ed-hero__avatar"
-              src={profile.avatarUrl}
-              alt={`${name} 的头像`}
-              width={34}
-              height={34}
-              decoding="async"
-            />
+            {avatarSrc && !avatarBroken ? (
+              <img
+                className="ed-hero__avatar"
+                src={avatarSrc}
+                alt={`${name} 的头像`}
+                width={34}
+                height={34}
+                decoding="async"
+                onError={() => {
+                  if (avatarSrc !== localAvatar) setAvatarSrc(localAvatar)
+                  else setAvatarBroken(true)
+                }}
+              />
+            ) : (
+              <span className="ed-hero__avatar ed-hero__avatar--fallback" aria-hidden="true">
+                {name.slice(0, 1)}
+              </span>
+            )}
             <span className="ed-hero__handle">@{profile.login}</span>
           </div>
 
