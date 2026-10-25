@@ -1,0 +1,13 @@
+# Cloudflare Worker：读取 pinned 仓库给页面用
+name = "baiyanwu-pins"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[vars]
+GITHUB_LOGIN = "baiyanwu"
+ALLOWED_ORIGINS = "https://baiyanwu.github.io,https://www.baiyanwu.github.io,http://127.0.0.1:5173,http://localhost:5173"
+CACHE_SECONDS = "60"
+
+# GITHUB_TOKEN 用 secret 存，不要写在这里：
+#   wrangler secret put GITHUB_TOKEN

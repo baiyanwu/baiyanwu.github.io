@@ -1,0 +1,15 @@
+{
+  "name": "baiyanwu-pins-worker",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "读取 GitHub pinned 仓库的 Cloudflare Worker，供 baiyanwu.github.io 的刷新按钮调用",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

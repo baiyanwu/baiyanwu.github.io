@@ -118,3 +118,6 @@ temp/
 local.properties
 *.local
 .DS_Store.local
+
+# wrangler 本地状态
+.wrangler/
