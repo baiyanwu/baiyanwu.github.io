@@ -1,0 +1,21 @@
+{
+  "name": "Bai Yanwu",
+  "short_name": "Bai Yanwu",
+  "description": "Bai Yanwu 的个人主站",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f2ea",
+  "theme_color": "#f6f2ea",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}
