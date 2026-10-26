@@ -301,6 +301,8 @@ html[data-mode='dark'] {
 .ed-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* 兜底：万一某格跨列数超过当前列数，隐式列也不会把格子挤变形 */
+  grid-auto-columns: minmax(0, 1fr);
   border-left: 1px solid var(--ed-rule);
   transition: border-color 450ms var(--ed-ease);
 }

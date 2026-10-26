@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import { compactNumber, formatDate, formatStamp, fromNow, truncate } from '../../lib/format'
 import { langColor } from '../../lib/langColor'
 import { useColorMode } from '../../lib/useColorMode'
@@ -6,6 +6,13 @@ import { useSiteData } from '../../lib/useSiteData'
 import './Editorial.css'
 
 const pad2 = (value: number) => String(value).padStart(2, '0')
+
+/** 网格列数，必须和 Editorial.css 里的断点保持一致：≤620 单列、≤900 双列、其余三列 */
+function columnsFor(width: number): number {
+  if (width <= 620) return 1
+  if (width <= 900) return 2
+  return 3
+}
 
 function SunIcon() {
   return (
@@ -71,26 +78,19 @@ export default function Editorial() {
 
   const year = new Date().getFullYear()
 
-  // 格子数量会随 pin 变化，所以量一下当前列数，让最后一格跨列把整行填满，
-  // 不然 7 个格子时最后一行会留一块空白。
-  const gridRef = useRef<HTMLDivElement>(null)
-  const [cols, setCols] = useState(3)
+  // 格子数随 pin 变化，最后一格要跨列把整行补满（否则 7 个格子时最后一行留白）。
+  //
+  // 注意：不能用 getComputedStyle(el).gridTemplateColumns 去数当前列数 ——
+  // 最后一格的 span 会凭空创建隐式列，数出来的列数是错的，会陷入「永远以为自己是 3 列」
+  // 的死循环（手机上格子被挤成一条一条）。所以列数直接按断点算，和 CSS 保持一致。
+  const [cols, setCols] = useState(() => columnsFor(window.innerWidth))
 
   useEffect(() => {
-    const el = gridRef.current
-    if (!el || typeof ResizeObserver === 'undefined') return
-
-    const measure = () => {
-      const template = getComputedStyle(el).gridTemplateColumns
-      const count = template.split(' ').filter(Boolean).length
-      if (count > 0) setCols((prev) => (prev === count ? prev : count))
-    }
-
-    measure()
-    const observer = new ResizeObserver(measure)
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [visible.length])
+    const onResize = () => setCols(columnsFor(window.innerWidth))
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const cellCount = visible.length + 1
   const rest = cols > 1 ? cellCount % cols : 0
@@ -178,7 +178,7 @@ export default function Editorial() {
           {visible.length === 0 ? (
             <p className="ed-empty">还没有可以展示的东西。</p>
           ) : (
-            <div className="ed-grid" ref={gridRef}>
+            <div className="ed-grid">
               {visible.map((repo, index) => {
                 const href = repo.siteUrl ?? repo.url
 
