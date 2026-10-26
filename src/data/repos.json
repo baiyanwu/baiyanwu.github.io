@@ -15,8 +15,8 @@
       "description": "Android 16 适配版：免 Root 的 SIM 卡国家码修改工具，支持 Shizuku 与双 APK helper 安装。",
       "language": "Kotlin",
       "languageColor": "#A97BFF",
-      "stars": 94,
-      "updatedAt": "2026-10-24T12:09:11Z",
+      "stars": 95,
+      "updatedAt": "2026-10-26T09:37:46Z",
       "siteUrl": null,
       "isPrivate": false
     },
@@ -27,8 +27,8 @@
       "description": "📈CoinMonitor📉 Android 加密货币监控工具，集成悬浮行情、自选列表、热门代币榜单及 EVM / Solana 多链自托管钱包，一站追踪 Binance、OKX 与链上市场动态。 Android crypto monitor with floating price tickers, watchlists, trending tokens, and a self-custody EVM & Solana wallet. Track Binance, OKX, and on-chain markets in one app. ",
       "language": "Kotlin",
       "languageColor": "#A97BFF",
-      "stars": 54,
-      "updatedAt": "2026-10-25T14:16:08Z",
+      "stars": 79,
+      "updatedAt": "2026-10-26T11:34:55Z",
       "siteUrl": "https://baiyanwu.github.io/CoinMonitor/",
       "isPrivate": false
     },
@@ -41,6 +41,18 @@
       "languageColor": "#F05138",
       "stars": 3,
       "updatedAt": "2026-10-25T14:16:44Z",
+      "siteUrl": null,
+      "isPrivate": false
+    },
+    {
+      "name": "Weft",
+      "nameWithOwner": "baiyanwu/Weft",
+      "url": "https://github.com/baiyanwu/Weft",
+      "description": "一台 Mac 与多台 Android 设备共享鼠标，USB / Wi-Fi 连接，内置 ADB，无需 root 或安装 Android APK。",
+      "language": "Swift",
+      "languageColor": "#F05138",
+      "stars": 1,
+      "updatedAt": "2026-10-25T19:47:27Z",
       "siteUrl": null,
       "isPrivate": false
     },
@@ -67,19 +79,7 @@
       "updatedAt": "2026-04-11T10:19:28Z",
       "siteUrl": null,
       "isPrivate": false
-    },
-    {
-      "name": "baiyanwu.github.io",
-      "nameWithOwner": "baiyanwu/baiyanwu.github.io",
-      "url": "https://github.com/baiyanwu/baiyanwu.github.io",
-      "description": "个人用户站（GitHub Pages）· 导航页入口",
-      "language": "TypeScript",
-      "languageColor": "#3178c6",
-      "stars": 0,
-      "updatedAt": "2026-10-25T16:04:53Z",
-      "siteUrl": "https://baiyanwu.github.io/",
-      "isPrivate": false
     }
   ],
-  "generatedAt": "2026-10-25T16:05:07.726Z"
+  "generatedAt": "2026-10-26T11:38:17.688Z"
 }
