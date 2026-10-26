@@ -27,8 +27,8 @@
       "description": "📈CoinMonitor📉 Android 加密货币监控工具，集成悬浮行情、自选列表、热门代币榜单及 EVM / Solana 多链自托管钱包，一站追踪 Binance、OKX 与链上市场动态。 Android crypto monitor with floating price tickers, watchlists, trending tokens, and a self-custody EVM & Solana wallet. Track Binance, OKX, and on-chain markets in one app. ",
       "language": "Kotlin",
       "languageColor": "#A97BFF",
-      "stars": 79,
-      "updatedAt": "2026-10-26T11:34:55Z",
+      "stars": 80,
+      "updatedAt": "2026-10-26T11:45:44Z",
       "siteUrl": "https://baiyanwu.github.io/CoinMonitor/",
       "isPrivate": false
     },
@@ -81,5 +81,5 @@
       "isPrivate": false
     }
   ],
-  "generatedAt": "2026-10-26T11:38:17.688Z"
+  "generatedAt": "2026-10-26T11:47:04.154Z"
 }

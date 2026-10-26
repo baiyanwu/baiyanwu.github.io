@@ -160,3 +160,23 @@ console.log(`  共 ${repos.length} 个仓库`)
 for (const r of repos) {
   console.log(`  · ${r.nameWithOwner.padEnd(24)} ${r.siteUrl ? `站点 ${r.siteUrl}` : '仓库（无项目站）'}`)
 }
+
+/**
+ * 顺手把头像同步到 public/avatar.jpg：
+ * 页面和图标都用同源的这张，完全不依赖 GitHub 的 CDN（国内网络下更稳）。
+ */
+async function syncAvatar(url) {
+  if (!url) return
+  try {
+    const res = await fetch(`${url}${url.includes('?') ? '&' : '?'}s=256`)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const buffer = Buffer.from(await res.arrayBuffer())
+    if (buffer.length < 500) throw new Error('返回内容太小，可能不是图片')
+    writeFileSync(join(ROOT, 'public', 'avatar.jpg'), buffer)
+    console.log('✓ 更新 public/avatar.jpg')
+  } catch (error) {
+    console.warn(`! 头像下载失败，保留现有文件：${String(error).split('\n')[0]}`)
+  }
+}
+
+await syncAvatar(user.avatarUrl)

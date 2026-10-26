@@ -57,16 +57,10 @@ export default function Editorial() {
   const name = profile.name ?? profile.login
   const { mode, toggle } = useColorMode()
 
-  // 头像：优先用 GitHub 的地址（会跟着头像更新），加载失败退回自托管的那张，
-  // 再失败就显示首字母——避免网络不通时页面上出现破图。
-  const localAvatar = `${import.meta.env.BASE_URL ?? '/'}avatar.jpg`
-  const [avatarSrc, setAvatarSrc] = useState<string>(profile.avatarUrl)
+  // 头像直接用自己的那张（public/avatar.jpg，由 npm run fetch:data 随快照一起更新）：
+  // 同源、不经 GitHub 的 CDN，网络不好时也不会卡住或破图；加载失败再退回首字母。
+  const avatarSrc = `${import.meta.env.BASE_URL ?? '/'}avatar.jpg`
   const [avatarBroken, setAvatarBroken] = useState(false)
-
-  useEffect(() => {
-    setAvatarSrc(profile.avatarUrl)
-    setAvatarBroken(false)
-  }, [profile.avatarUrl])
 
   const languages = Array.from(
     new Set(
@@ -129,7 +123,11 @@ export default function Editorial() {
 
         <section className="ed-hero">
           <div className="ed-hero__eyebrow">
-            {avatarSrc && !avatarBroken ? (
+            {avatarBroken ? (
+              <span className="ed-hero__avatar ed-hero__avatar--fallback" aria-hidden="true">
+                {name.slice(0, 1)}
+              </span>
+            ) : (
               <img
                 className="ed-hero__avatar"
                 src={avatarSrc}
@@ -137,15 +135,8 @@ export default function Editorial() {
                 width={34}
                 height={34}
                 decoding="async"
-                onError={() => {
-                  if (avatarSrc !== localAvatar) setAvatarSrc(localAvatar)
-                  else setAvatarBroken(true)
-                }}
+                onError={() => setAvatarBroken(true)}
               />
-            ) : (
-              <span className="ed-hero__avatar ed-hero__avatar--fallback" aria-hidden="true">
-                {name.slice(0, 1)}
-              </span>
             )}
             <span className="ed-hero__handle">@{profile.login}</span>
           </div>
